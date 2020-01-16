@@ -15,9 +15,32 @@ app.use(express.static("public"));
 mongoose.connect(MONGODB_URI);
 
 // ROUTE FOR GETTING ALL ARTICLES
-app.get("/articles", function(req, res) {
-    axios.get("").then(function(response) {
-
+app.get("/scrape", function(req, res) {
+    axios.get("https://css-tricks.com/archives/").then(function(response) {
+        const $ = cheerio.load(response.data);
+        $("article h2").each(function(i, element) {
+            let result = {};
+            result.title = $(this)
+                .children()
+                .text();
+            result.link = $(this)
+                .children("a")
+                .attr("href");
+            
+            db.Article.create(result)
+                .then(function(dbArticle) {
+                    console.log(dbArticle);
+                })
+                .catch(function(err) {
+                    console.log(err);
+                })
+        });
+        res.send("Completed");
     });
+});
+
+
+app.listen(PORT, function() {
+    console.log("App running on port " + PORT + "!");
 });
 
