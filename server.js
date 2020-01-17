@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const axios = require("axios");
 const cheerio = require("cheerio"); 
 const db = require("./models");
-const PORT = 3000;
+const PORT = 3500;
 const app = express();
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.static("public"));
 mongoose.connect(MONGODB_URI);
 
-// ROUTE FOR GETTING ALL ARTICLES
+// ROUTE FOR SCRAPE ALL ARTICLES
 app.get("/scrape", function(req, res) {
     axios.get("https://css-tricks.com/archives/").then(function(response) {
         const $ = cheerio.load(response.data);
@@ -26,7 +26,8 @@ app.get("/scrape", function(req, res) {
             result.link = $(this)
                 .children("a")
                 .attr("href");
-            
+
+                 
             db.Article.create(result)
                 .then(function(dbArticle) {
                     console.log(dbArticle);
@@ -35,12 +36,49 @@ app.get("/scrape", function(req, res) {
                     console.log(err);
                 })
         });
-        res.send("Completed");
+        res.send("completed");
     });
+});
+
+// ROUTE FOR GETTING ALL ARTICLES
+app.get("/articles", function(req, res) {
+    db.Article.find({})
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+
+// ROUTE FOR GRABBING A SPECIFIC ARTICLE BY ID
+app.get("/articles/:id", function(req, res) {
+    db.Article.findOne({ _id: req.params.id })
+        .populate("note")
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+
+// ROUTE FOR SAVING/UPDATING AN ARTICLE'S ASSOCIATED NOTE
+app.post("/articles/:id", function(req, res) {
+    db.Note.create(req.body)
+        .then(function(dbNote) {
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, {note: dbNote._id }, {new: true});
+        })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
 });
 
 
 app.listen(PORT, function() {
-    console.log("App running on port " + PORT + "!");
+    console.log("App running on http://localhost:3500/");
 });
 
