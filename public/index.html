@@ -23,7 +23,13 @@
         background-size: cover;
         height: 650px; 
         margin: 0;
-        color: white;
+    }
+    #jumbotron {
+      background: rgba(255, 255, 255, 0.8);
+      max-width: 400px;
+      width: 100%;
+      padding: 10px 0;
+      border-radius: 10px;
     }
     </style>
 </head>
@@ -42,7 +48,7 @@
                   <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Saved Articles</a>
+                  <a class="nav-link" id="saved">Saved Articles</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="scrape" data-toggle="modal" data-target="#add-articles">Scrape New Articles</a>
@@ -52,7 +58,7 @@
         </nav>
         <!-- JUMBOTRON -->
         <div class="jumbotron jumbotron-fluid text-center">
-            <div class="container">
+            <div class="container" id="jumbotron">
               <h1 class="display-4">Mongo Scraper</h1>
               <h3>CSS-TRICKS</h3>
             </div>
@@ -70,6 +76,9 @@
     </div>
 
     <div class="container" id="articles">
+
+    </div>
+    <div class="container" id="saved-articles">
 
     </div>
 

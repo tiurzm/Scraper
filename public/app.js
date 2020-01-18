@@ -9,12 +9,14 @@ $(document).on("click","#scrape",function() {
     });
 });
 
-// GRAB THE ARTICLES
+// GRAB THE ALL ARTICLES
 $.ajax({
     method:"GET",
     url:"/articles",
 }).then(function(data) {
     const length = data.length
+    $("#articles").empty();
+    $("#saved-articles").empty();
     for(let i = 0; i < length; i++) {
         let name = data[i].title;
         let id = data[i]._id;
@@ -39,6 +41,7 @@ $.ajax({
     }; 
 });
 
+// SAVE AN ARTICLE
 $(document).on("click", ".save-article", function(){
     const thisId = $(this).attr("data-id");
     $.ajax({
@@ -47,5 +50,47 @@ $(document).on("click", ".save-article", function(){
     }).then(function(data) {
         console.log(data)
         window.location = "/";
+    });
+});
+
+// DISPLAY SAVED ARTICLES
+$(document).on("click", "#saved", function(){
+    $.ajax({
+        method: "GET",
+        url: "/articles/save",
+    }).then(function(data) {
+        const length = data.length
+        $("#articles").empty();
+        $("#saved-articles").empty();
+        for(let i = 0; i < length; i++) {
+            let name = data[i].title;
+            let id = data[i]._id;
+            let link = data[i].link
+            let article = $("<div>") 
+                .addClass("article")
+                .attr("data-id", id)
+                .addClass("my-5"); 
+            let title = $("<p>")
+                .text(name);
+            let linkText = $("<p>")
+                .text(link); 
+            let add = $("<button>")
+                .attr("data-id", id)
+                .addClass("add-note")
+                .addClass("btn")
+                .addClass("btn-primary")
+                .addClass("text-white")
+                .addClass("mr-1")
+                .text("Add Note");
+            let remove = $("<button>")
+                .attr("data-id", id)
+                .addClass("remove")
+                .addClass("btn")
+                .addClass("btn-danger")
+                .addClass("text-white")
+                .text("Remove Article");
+            article.append(title, linkText, add, remove);
+            $("#saved-articles").append(article);
+        }; 
     });
 });
