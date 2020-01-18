@@ -73,8 +73,9 @@ $(document).on("click", "#saved", function(){
             let linkText = $("<p>")
                 .text(link); 
             let add = $("<button>")
+                .addClass("add-button")
                 .attr("data-id", id)
-                .addClass("add-note")
+                .attr("data-name", name)
                 .addClass("btn")
                 .addClass("btn-primary")
                 .addClass("text-white")
@@ -95,14 +96,35 @@ $(document).on("click", "#saved", function(){
     });
 });
 
-// ADD A NOTE TO SAVED ARTICLES
-$(document).on("click", ".add-note", function(){
+// PUT ADD NOTE'S ID TO SAVE NOTE BUTTON
+$(document).on("click", ".add-button", function(){
     const thisId = $(this).attr("data-id");
-    // alert("test add"); 
+    const thisName = $(this).attr("data-name");
+    $("#save-note").attr("data-id", thisId);
+    $("#add-note-label").text("Note for " + thisName);
+});
+
+// ADD A NOTE TO SAVED ARTICLES
+$(document).on("click", "#save-note", function(){
+    const note = $("#note").val();
+    const thisId = $(this).attr("data-id");
+    console.log(thisId)
+    // $.ajax({
+    //     method: "POST",
+    //     url: "/articles/" + thisId,
+    // }).then(function(data) {
+    //     console.log(data)
+    // });
 });
 
 // REMOVE AN ARTICLES FROM SAVED ARTICLES
 $(document).on("click", ".remove", function(){
     const thisId = $(this).attr("data-id");
-    // alert("test remove"); 
+    $.ajax({
+        method: "POST",
+        url: "/articles/delete/" + thisId,
+    }).then(function(data) {
+        console.log(data)
+        window.location = "/";
+    });
 });

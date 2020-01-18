@@ -51,7 +51,7 @@ app.get("/articles", function(req, res) {
         });
 });
 
-// ROUTE FOR SAVE ARTICLE TO SAVED ARTICLES
+// ROUTE FOR SAVING ARTICLE TO SAVED ARTICLES
 app.post("/articles/save/:id", function(req, res) {
     db.Article
     .findOneAndUpdate ({ _id: req.params.id }, { isSaved: true })
@@ -74,6 +74,20 @@ app.get("/articles/save", function(req, res) {
             res.json(err);
         });
 });
+
+// ROUTE FOR REMOVING ARTICLE FROM SAVED ARTICLES
+app.post("/articles/delete/:id", function(req, res) {
+    db.Article
+    .findOneAndUpdate ({ _id: req.params.id }, { isSaved: false })
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+// -------------
 
 // ROUTE FOR GRABBING A SPECIFIC ARTICLE BY ID
 app.get("/articles/:id", function(req, res) {
