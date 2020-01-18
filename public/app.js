@@ -1,12 +1,12 @@
 // SCRAPE THE ARTICLES
-$("#scrape").on("click", function() {
+$(document).on("click","#scrape",function() {
     $.ajax({
         method: "GET",
         url: "/scrape",
     }).then(function(data) {
         console.log(data)
         window.location = "/";
-    })
+    });
 });
 
 // GRAB THE ARTICLES
@@ -39,7 +39,13 @@ $.ajax({
     }; 
 });
 
-$(".save-article").on("click", function(){
+$(document).on("click", ".save-article", function(){
     const thisId = $(this).attr("data-id");
-    alert(thisId);
+    $.ajax({
+        method: "POST",
+        url: "/articles/save/" + thisId,
+    }).then(function(data) {
+        console.log(data)
+        window.location = "/";
+    });
 });

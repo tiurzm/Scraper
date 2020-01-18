@@ -26,7 +26,6 @@ app.get("/scrape", function(req, res) {
             result.link = $(this)
                 .children("a")
                 .attr("href");
-
                  
             db.Article.create(result)
                 .then(function(dbArticle) {
@@ -34,7 +33,7 @@ app.get("/scrape", function(req, res) {
                 })
                 .catch(function(err) {
                     console.log(err);
-                })
+                });
         });
         res.send("completed");
     });
@@ -42,7 +41,32 @@ app.get("/scrape", function(req, res) {
 
 // ROUTE FOR GETTING ALL ARTICLES
 app.get("/articles", function(req, res) {
-    db.Article.find({})
+    db.Article
+        .find({ isSaved: false})
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+
+// ROUTE FOR SAVE ARTICLE TO SAVED ARTICLES
+app.post("/articles/save/:id", function(req, res) {
+    db.Article
+    .findOneAndUpdate ({ _id: req.params.id }, { isSaved: true })
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+// ROUTE FOR SAVED ARTICLES
+app.get("/articles/save", function(req, res) {
+    db.Article
+        .find({ isSaved: true })
         .then(function(dbArticle) {
             res.json(dbArticle);
         })

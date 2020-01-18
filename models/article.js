@@ -10,8 +10,11 @@ const ArticleSchema = new Schema({
     link: {
         type:String, 
         required: true
-    }
-    ,
+    },
+    isSaved: {
+        type: Boolean,
+        default: false
+    },
     note: {
         type: Schema.Types.ObjectId,
         ref: "Note"
