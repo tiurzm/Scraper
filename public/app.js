@@ -106,15 +106,20 @@ $(document).on("click", ".add-button", function(){
 
 // ADD A NOTE TO SAVED ARTICLES
 $(document).on("click", "#save-note", function(){
-    const note = $("#note").val();
     const thisId = $(this).attr("data-id");
     console.log(thisId)
-    // $.ajax({
-    //     method: "POST",
-    //     url: "/articles/" + thisId,
-    // }).then(function(data) {
-    //     console.log(data)
-    // });
+    $.ajax({
+        method: "POST",
+        url: "/articles/" + thisId,
+        data: {
+            title: $("#title").val(),
+            body: $("#message").val()
+        }
+    }).then(function(data) {
+        console.log(data)
+    });
+    // $("#title").val(),
+    // $("#message").val()
 });
 
 // REMOVE AN ARTICLES FROM SAVED ARTICLES
@@ -124,7 +129,7 @@ $(document).on("click", ".remove", function(){
         method: "POST",
         url: "/articles/delete/" + thisId,
     }).then(function(data) {
-        console.log(data)
+        console.log(data);
         window.location = "/";
     });
 });
