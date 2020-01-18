@@ -23,7 +23,6 @@ $.ajax({
         let link = data[i].link
         let article = $("<div>") 
             .addClass("article")
-            .attr("data-id", id)
             .addClass("my-5"); 
         let title = $("<p>")
             .text(name);
@@ -68,7 +67,6 @@ $(document).on("click", "#saved", function(){
             let link = data[i].link
             let article = $("<div>") 
                 .addClass("article")
-                .attr("data-id", id)
                 .addClass("my-5"); 
             let title = $("<p>")
                 .text(name);
@@ -81,6 +79,8 @@ $(document).on("click", "#saved", function(){
                 .addClass("btn-primary")
                 .addClass("text-white")
                 .addClass("mr-1")
+                .attr("data-toggle", "modal")
+                .attr("data-target", "#add-note" )
                 .text("Add Note");
             let remove = $("<button>")
                 .attr("data-id", id)
@@ -88,9 +88,21 @@ $(document).on("click", "#saved", function(){
                 .addClass("btn")
                 .addClass("btn-danger")
                 .addClass("text-white")
-                .text("Remove Article");
+                .text("Remove ");
             article.append(title, linkText, add, remove);
             $("#saved-articles").append(article);
         }; 
     });
+});
+
+// ADD A NOTE TO SAVED ARTICLES
+$(document).on("click", ".add-note", function(){
+    const thisId = $(this).attr("data-id");
+    // alert("test add"); 
+});
+
+// REMOVE AN ARTICLES FROM SAVED ARTICLES
+$(document).on("click", ".remove", function(){
+    const thisId = $(this).attr("data-id");
+    // alert("test remove"); 
 });
