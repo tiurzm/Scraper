@@ -133,6 +133,6 @@ app.delete("/articles/:id", function(req, res) {
 
 
 app.listen(PORT, function() {
-    console.log("App running on http://localhost:3500/");
+    console.log("App running on " + PORT);
 });
 
