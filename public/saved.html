@@ -37,7 +37,7 @@
     <div class="container-fluid">
         <!-- NAVBAR -->
         <nav class="navbar navbar-expand-md navbar-light">
-            <a class="navbar-brand">Mongo Scraper</a>
+            <a class="navbar-brand" href="/">Mongo Scraper</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -45,10 +45,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link btn btn-success text-light mr-2" role="button" id="saved" href="saved.html">Saved Articles</a>
+                  <a class="nav-link btn btn-success text-light mr-2" role="button" id="saved">Saved Articles</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link btn btn-warning text-body" role="button" id="scrape" data-toggle="modal" data-target="#add-articles">Scrape New Articles</a>
@@ -100,14 +100,13 @@
           </div>
         </div>
     </div>
+    <div class="container" id="saved-articles">
 
-    <div class="container" id="articles">
-    
     </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> 
-    <script src="./js/app.js"></script>   
+    <script src="./js/saved.js"></script>   
 </body>
 </html>

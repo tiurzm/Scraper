@@ -1,18 +1,7 @@
-// SCRAPE THE ARTICLES
-$(document).on("click","#scrape",function() {
-    $.ajax({
-        method: "GET",
-        url: "/scrape",
-    }).then(function(data) {
-        console.log(data);
-        window.location = "/";
-    });
-});
-
-// GRAB THE ALL ARTICLES
+// DISPLAY SAVED ARTICLES
 $.ajax({
-    method:"GET",
-    url:"/articles",
+    method: "GET",
+    url: "/saved",
 }).then(function(data) {
     const length = data.length
     $("#articles").empty();
@@ -26,75 +15,28 @@ $.ajax({
             .addClass("my-5"); 
         let title = $("<p>")
             .text(name);
-        let linkText = $("<p>")
+        let linkText = $("<a>")
+            .attr("href", link)
             .text(link); 
-        let save = $("<button>")
+        let add = $("<button>")
+            .addClass("add-button")
             .attr("data-id", id)
-            .addClass("save-article")
-            .addClass("btn")
-            .addClass("btn-primary")
-            .addClass("text-white")
-            .text("Save Article");
-        article.append(title, linkText, save);
-        $("#articles").append(article);
+            .attr("data-name", name)
+            .addClass("btn btn-primary text-white mr-2 float-right")
+            .attr("data-toggle", "modal")
+            .attr("data-target", "#add-note" )
+            .text("Add Note");
+        let remove = $("<button>")
+            .attr("data-id", id)
+            .addClass("remove")
+            .addClass("btn btn-danger text-white float-right")
+            .text("Remove ");
+        title.append(remove, add)
+        article.append(title, linkText);
+        $("#saved-articles").append(article);
     }; 
 });
 
-// SAVE AN ARTICLE
-$(document).on("click", ".save-article", function(){
-    const thisId = $(this).attr("data-id");
-    $.ajax({
-        method: "POST",
-        url: "/saved/" + thisId,
-    }).then(function(data) {
-        console.log(data);
-        window.location = "/";
-    });
-});
-
-// DISPLAY SAVED ARTICLES
-$(document).on("click", "#saved", function(){
-    $.ajax({
-        method: "GET",
-        url: "/saved",
-    }).then(function(data) {
-        const length = data.length
-        $("#articles").empty();
-        $("#saved-articles").empty();
-        for(let i = 0; i < length; i++) {
-            let name = data[i].title;
-            let id = data[i]._id;
-            let link = data[i].link
-            let article = $("<div>") 
-                .addClass("article")
-                .addClass("my-5"); 
-            let title = $("<p>")
-                .text(name);
-            let linkText = $("<p>")
-                .text(link); 
-            let add = $("<button>")
-                .addClass("add-button")
-                .attr("data-id", id)
-                .attr("data-name", name)
-                .addClass("btn")
-                .addClass("btn-primary")
-                .addClass("text-white")
-                .addClass("mr-1")
-                .attr("data-toggle", "modal")
-                .attr("data-target", "#add-note" )
-                .text("Add Note");
-            let remove = $("<button>")
-                .attr("data-id", id)
-                .addClass("remove")
-                .addClass("btn")
-                .addClass("btn-danger")
-                .addClass("text-white")
-                .text("Remove ");
-            article.append(title, linkText, add, remove);
-            $("#saved-articles").append(article);
-        }; 
-    });
-});
 
 // DISPLAY NOTES
 $(document).on("click", ".add-button", function(){
@@ -144,7 +86,7 @@ $(document).on("click", "#save-note", function(){
             }
         }).then(function(data) {
             console.log(data);
-            window.location = "/";
+            window.location.reload();
             $("#note").empty();
         });
     }
@@ -158,7 +100,7 @@ $(document).on("click", "#delete-note", function(){
         url: "/articles/" + thisId,
     }).then(function(data) {
         console.log(data);
-        window.location = "/";
+        window.location.reload();
     });
 });
 
@@ -170,6 +112,6 @@ $(document).on("click", ".remove", function(){
         url: "/remove/" + thisId,
     }).then(function(data) {
         console.log(data);
-        window.location = "/";
+        window.location.reload();
     });
 });
