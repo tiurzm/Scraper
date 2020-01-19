@@ -108,8 +108,8 @@ $(document).on("click", ".add-button", function(){
         url: "/articles/" + thisId
     }).then(function(data){
         console.log(data)
+        $("#note-list").empty();
         if (data.note) {
-            $("#note-list").empty();
             console.log(data);
             let theNote = data.note.body;
             let noteDiv = $("<div>")
@@ -124,7 +124,6 @@ $(document).on("click", ".add-button", function(){
             noteDiv.append(noteText);
             $("#note-list").append(noteDiv);
         }
-        $("#note").empty();
     });
 });
 
@@ -143,6 +142,7 @@ $(document).on("click", "#save-note", function(){
             }
         }).then(function(data) {
             console.log(data);
+            $("#note").empty();
         });
     }
 });
