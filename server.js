@@ -52,7 +52,7 @@ app.get("/articles", function(req, res) {
 });
 
 // ROUTE FOR SAVING ARTICLE TO SAVED ARTICLES
-app.post("/articles/save/:id", function(req, res) {
+app.post("/saved/:id", function(req, res) {
     db.Article
     .findOneAndUpdate ({ _id: req.params.id }, { isSaved: true })
     .then(function(dbArticle) {
@@ -64,7 +64,7 @@ app.post("/articles/save/:id", function(req, res) {
 });
 
 // ROUTE FOR SAVED ARTICLES
-app.get("/articles/save", function(req, res) {
+app.get("/saved", function(req, res) {
     db.Article
         .find({ isSaved: true })
         .then(function(dbArticle) {
@@ -76,7 +76,7 @@ app.get("/articles/save", function(req, res) {
 });
 
 // ROUTE FOR REMOVING ARTICLE FROM SAVED ARTICLES
-app.post("/articles/delete/:id", function(req, res) {
+app.post("/remove/:id", function(req, res) {
     db.Article
         .findOneAndUpdate ({ _id: req.params.id }, { isSaved: false })
         .then(function(dbArticle) {

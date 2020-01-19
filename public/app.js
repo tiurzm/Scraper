@@ -44,7 +44,7 @@ $(document).on("click", ".save-article", function(){
     const thisId = $(this).attr("data-id");
     $.ajax({
         method: "POST",
-        url: "/articles/save/" + thisId,
+        url: "/saved/" + thisId,
     }).then(function(data) {
         window.location = "/";
     });
@@ -54,7 +54,7 @@ $(document).on("click", ".save-article", function(){
 $(document).on("click", "#saved", function(){
     $.ajax({
         method: "GET",
-        url: "/articles/save",
+        url: "/saved",
     }).then(function(data) {
         const length = data.length
         $("#articles").empty();
@@ -113,7 +113,7 @@ $(document).on("click", ".add-button", function(){
 
 // ADD A NOTE TO SAVED ARTICLES
 $(document).on("click", "#save-note", function(){
-    event.preventDefault();
+    // event.preventDefault();
     const thisId = $(this).attr("data-id");
     const note = $("#note").val()
     if (!note||!thisId){
@@ -128,23 +128,24 @@ $(document).on("click", "#save-note", function(){
         }).then(function(data) {
             console.log(data);
         });
-        $.ajax({
-            method: "GET",
-            url: "/articles/" + thisId
-        }).then(function(data){
-            if (data.note) {
-                console.log(data.note.body);
-                let noteDiv = $("<div>");
-                let noteText = $("<p>")
-                    .text(data.note.body);
-                let noteDelete = $("<button>")
-                    .text("x")
-                    .addClass("btn")
-                    .addClass("btn-danger");
-                noteDiv.append(noteText, noteDelete);
-                $("#note-list").append(noteDiv);
-            }
-        });
+        // $.ajax({
+        //     method: "GET",
+        //     url: "/articles/" + thisId
+        // }).then(function(data){
+        //     console.log(data);
+        //     if (data.note.body) {
+        //         // console.log(data.note.body);
+        //         let noteDiv = $("<div>");
+        //         let noteText = $("<p>")
+        //             .text(data.note.body);
+        //         let noteDelete = $("<button>")
+        //             .text("x")
+        //             .addClass("btn")
+        //             .addClass("btn-danger");
+        //         noteDiv.append(noteText, noteDelete);
+        //         $("#note-list").append(noteDiv);
+        //     }
+        // });
     }
 });
 
@@ -153,7 +154,7 @@ $(document).on("click", ".remove", function(){
     const thisId = $(this).attr("data-id");
     $.ajax({
         method: "POST",
-        url: "/articles/delete/" + thisId,
+        url: "/remove/" + thisId,
     }).then(function(data) {
         window.location = "/";
     });
