@@ -1,0 +1,60 @@
+ $("#modal-note").empty();
+    const thisId = $(this).attr("data-id");
+    $.ajax({
+        method: "GET",
+        url: "/articles/" + thisId
+    }).then(function(data){
+        console.log(data);
+        let modalDiv = $("<div>")
+            .addClass("modal")
+            .addClass("fade")
+            .attr("id", "add-note")
+            .attr("aria-labelledby", "add-note-label");
+        let div1 = $("<div>")
+            .addClass("modal-dialog");
+        let div2 = $("<div>")
+            .addClass("modal-content");
+        let div3 = $("<div>")
+            .addClass("modal-header");
+        let div4 = $("<div>")
+            .addClass("modal-body");
+        let h5 = $("<h5>")
+            .addClass("modal-title")
+            .attr("id", "add-note-label")
+            .text(data.title);
+        let click = $("<button>")
+            .attr("type", "button")
+            .addClass("close")
+            .attr("data-dismiss", "modal")
+            .attr("aria-label", "Close");
+        let symbol = $("<span>")
+            .attr("aria-hidden", "true")
+            .text("x");
+        let div5 = $("<div>")
+            .addClass("container");
+        let div6 = $("<div>")
+            .addClass("border border-primary mb-3")
+            .attr("id", "note-list")
+            .text("test");
+        let formNote = $("<form>");
+        let div7 = $("<div>").addClass("form-group");
+        let textArea = $("<textarea>")
+            .attr("name", "note")
+            .attr("id", "note")
+            .attr("cols", "52")
+            .attr("rows", "5");
+        let saveClick = $("<button>")
+            .attr("type", "submit")
+            .addClass("btn btn-primary")
+            .attr("id", "save-note")
+            .text("Save Note");
+        click.append(symbol);
+        div7.append(textArea);
+        formNote.append(div7, saveClick);
+        div5.append(div6, formNote);
+        div3.append(h5, click);
+        div4.append(div5);
+        div2.append(div3, div4);
+        div1.append(div2)
+        modalDiv.append(div1);
+        $("#modal-note").append(modalDiv);

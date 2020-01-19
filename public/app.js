@@ -4,6 +4,7 @@ $(document).on("click","#scrape",function() {
         method: "GET",
         url: "/scrape",
     }).then(function(data) {
+        console.log(data);
         window.location = "/";
     });
 });
@@ -46,6 +47,7 @@ $(document).on("click", ".save-article", function(){
         method: "POST",
         url: "/saved/" + thisId,
     }).then(function(data) {
+        console.log(data);
         window.location = "/";
     });
 });
@@ -96,6 +98,7 @@ $(document).on("click", "#saved", function(){
 
 // PUT ADD NOTE'S ID TO SAVE NOTE BUTTON
 $(document).on("click", ".add-button", function(){
+    // event.preventDefault();
     const thisId = $(this).attr("data-id");
     const thisName = $(this).attr("data-name");
     $("#save-note").attr("data-id", thisId);
@@ -104,16 +107,29 @@ $(document).on("click", ".add-button", function(){
         method: "GET",
         url: "/articles/" + thisId
     }).then(function(data){
+        console.log(data)
         if (data.note) {
-            // console.log(data.note.body);
-            $("#note").val(data.note.body);
+            $("#note-list").empty();
+            console.log(data);
+            let theNote = data.note.body;
+            let noteDiv = $("<div>")
+                .addClass("m-2");
+            let noteText = $("<p>")
+                .text(theNote);
+            let noteDelete = $("<button>")
+                .attr("id", "delete-note")
+                .text("x")
+                .addClass("btn btn-danger float-right");
+            noteText.append(noteDelete);
+            noteDiv.append(noteText);
+            $("#note-list").append(noteDiv);
         }
+        $("#note").empty();
     });
 });
 
 // ADD A NOTE TO SAVED ARTICLES
 $(document).on("click", "#save-note", function(){
-    // event.preventDefault();
     const thisId = $(this).attr("data-id");
     const note = $("#note").val()
     if (!note||!thisId){
@@ -128,25 +144,12 @@ $(document).on("click", "#save-note", function(){
         }).then(function(data) {
             console.log(data);
         });
-        // $.ajax({
-        //     method: "GET",
-        //     url: "/articles/" + thisId
-        // }).then(function(data){
-        //     console.log(data);
-        //     if (data.note.body) {
-        //         // console.log(data.note.body);
-        //         let noteDiv = $("<div>");
-        //         let noteText = $("<p>")
-        //             .text(data.note.body);
-        //         let noteDelete = $("<button>")
-        //             .text("x")
-        //             .addClass("btn")
-        //             .addClass("btn-danger");
-        //         noteDiv.append(noteText, noteDelete);
-        //         $("#note-list").append(noteDiv);
-        //     }
-        // });
     }
+});
+
+// DELETE A NOTE
+$(document).on("click", "#delete-note", function(){
+    alert("test");
 });
 
 // REMOVE AN ARTICLES FROM SAVED ARTICLES
@@ -156,6 +159,7 @@ $(document).on("click", ".remove", function(){
         method: "POST",
         url: "/remove/" + thisId,
     }).then(function(data) {
+        console.log(data);
         window.location = "/";
     });
 });
