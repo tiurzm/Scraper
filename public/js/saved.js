@@ -1,3 +1,14 @@
+// SCRAPE THE ARTICLES
+$(document).on("click","#scrape",function() {
+    $.ajax({
+        method: "GET",
+        url: "/scrape",
+    }).then(function(data) {
+        console.log(data);
+        window.location.reload();
+    });
+});
+
 // DISPLAY SAVED ARTICLES
 $.ajax({
     method: "GET",
