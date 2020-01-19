@@ -111,8 +111,10 @@ $(document).on("click", ".add-button", function(){
         $("#note-list").empty();
         if (data.note) {
             console.log(data);
-            let theNote = data.note.body;
-            let noteId = data.note._id;
+            console.log(data.notes.length);
+
+            let theNote = data.notes.body;
+            let noteId = data.notes._id;
             let noteDiv = $("<div>")
                 .addClass("m-2");
             let noteText = $("<p>")

@@ -91,7 +91,7 @@ app.post("/remove/:id", function(req, res) {
 app.get("/articles/:id", function(req, res) {
     db.Article
         .findOne({ _id: req.params.id })
-        .populate("note")
+        .populate("notes")
         .then(function(dbArticle) {
             res.json(dbArticle);
         })
@@ -105,7 +105,7 @@ app.post("/articles/:id", function(req, res) {
     db.Note
         .create(req.body)
         .then(function(dbNote) {
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, {note: dbNote._id }, {new: true});
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: {notes: dbNote._id }});
         })
         .then(function(dbArticle) {
             res.json(dbArticle);
@@ -120,7 +120,7 @@ app.delete("/articles/:id", function(req, res) {
     db.Note
         .findOneAndRemove({ _id: req.params.id })
         .then(function(dbNote) {
-            return db.Article.findOneAndUpdate({ _id: req.params.article_id }, { $pull: { note: dbNote } });
+            return db.Article.findOneAndUpdate({ _id: req.params.article_id }, { $pull: { notes: dbNote } });
         })
         .then(function(dbArticle) {
             res.json(dbArticle);
