@@ -96,9 +96,8 @@ $(document).on("click", "#saved", function(){
     });
 });
 
-// PUT ADD NOTE'S ID TO SAVE NOTE BUTTON
+// DISPLAY NOTES
 $(document).on("click", ".add-button", function(){
-    // event.preventDefault();
     const thisId = $(this).attr("data-id");
     const thisName = $(this).attr("data-name");
     $("#save-note").attr("data-id", thisId);
@@ -107,26 +106,25 @@ $(document).on("click", ".add-button", function(){
         method: "GET",
         url: "/articles/" + thisId
     }).then(function(data){
-        console.log(data)
+        console.log(data);
+        console.log(data.notes);
         $("#note-list").empty();
-        if (data.note) {
-            console.log(data);
-            console.log(data.notes.length);
-
-            let theNote = data.notes.body;
-            let noteId = data.notes._id;
-            let noteDiv = $("<div>")
-                .addClass("m-2");
-            let noteText = $("<p>")
-                .text(theNote);
-            let noteDelete = $("<button>")
-                .attr("id", "delete-note")
-                .attr("data-id", noteId)
-                .text("x")
-                .addClass("btn btn-danger float-right btn-sm");
-            noteText.append(noteDelete);
-            noteDiv.append(noteText);
-            $("#note-list").append(noteDiv);
+        let length = data.notes.length
+        if (data.notes) {
+            for(let i = 0; i < length; i++ ){
+                let noteDiv = $("<div>")
+                    .addClass("m-2");
+                let noteText = $("<p>")
+                    .text(data.notes[i].body);
+                let noteDelete = $("<button>")
+                    .attr("id", "delete-note")
+                    .attr("data-id", data.notes[i]._id)
+                    .text("x")
+                    .addClass("btn btn-danger float-right btn-sm");
+                noteText.append(noteDelete);
+                noteDiv.append(noteText);
+                $("#note-list").append(noteDiv);
+            }
         }
     });
 });

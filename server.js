@@ -100,7 +100,7 @@ app.get("/articles/:id", function(req, res) {
         });
 });
 
-// ROUTE FOR SAVING/UPDATING AN ARTICLE'S ASSOCIATED NOTE
+// ROUTE FOR CREATE NEW NOTES (AN ARTICLE'S ASSOCIATED NOTE)
 app.post("/articles/:id", function(req, res) {
     db.Note
         .create(req.body)
