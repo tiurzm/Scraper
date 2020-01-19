@@ -4,7 +4,6 @@ $(document).on("click","#scrape",function() {
         method: "GET",
         url: "/scrape",
     }).then(function(data) {
-        console.log(data)
         window.location = "/";
     });
 });
@@ -47,7 +46,6 @@ $(document).on("click", ".save-article", function(){
         method: "POST",
         url: "/articles/save/" + thisId,
     }).then(function(data) {
-        console.log(data)
         window.location = "/";
     });
 });
@@ -102,24 +100,52 @@ $(document).on("click", ".add-button", function(){
     const thisName = $(this).attr("data-name");
     $("#save-note").attr("data-id", thisId);
     $("#add-note-label").text("Note for " + thisName);
+    $.ajax({
+        method: "GET",
+        url: "/articles/" + thisId
+    }).then(function(data){
+        if (data.note) {
+            // console.log(data.note.body);
+            $("#note").val(data.note.body);
+        }
+    });
 });
 
 // ADD A NOTE TO SAVED ARTICLES
 $(document).on("click", "#save-note", function(){
+    event.preventDefault();
     const thisId = $(this).attr("data-id");
-    console.log(thisId)
-    $.ajax({
-        method: "POST",
-        url: "/articles/" + thisId,
-        data: {
-            title: $("#title").val(),
-            body: $("#message").val()
-        }
-    }).then(function(data) {
-        console.log(data)
-    });
-    // $("#title").val(),
-    // $("#message").val()
+    const note = $("#note").val()
+    if (!note||!thisId){
+        alert("Please enter a note to save")
+    } else {
+        $.ajax({
+            method: "POST",
+            url: "/articles/" + thisId,
+            data: {
+                body: note
+            }
+        }).then(function(data) {
+            console.log(data);
+        });
+        $.ajax({
+            method: "GET",
+            url: "/articles/" + thisId
+        }).then(function(data){
+            if (data.note) {
+                console.log(data.note.body);
+                let noteDiv = $("<div>");
+                let noteText = $("<p>")
+                    .text(data.note.body);
+                let noteDelete = $("<button>")
+                    .text("x")
+                    .addClass("btn")
+                    .addClass("btn-danger");
+                noteDiv.append(noteText, noteDelete);
+                $("#note-list").append(noteDiv);
+            }
+        });
+    }
 });
 
 // REMOVE AN ARTICLES FROM SAVED ARTICLES
@@ -129,7 +155,6 @@ $(document).on("click", ".remove", function(){
         method: "POST",
         url: "/articles/delete/" + thisId,
     }).then(function(data) {
-        console.log(data);
         window.location = "/";
     });
 });
