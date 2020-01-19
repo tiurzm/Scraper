@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const axios = require("axios");
 const cheerio = require("cheerio"); 
 const db = require("./models");
-const PORT = 3500;
+const PORT = 3000;
 const app = express();
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
