@@ -80,14 +80,14 @@ app.post("/remove/:id", function(req, res) {
     db.Article
         .findOneAndUpdate ({ _id: req.params.id }, { isSaved: false })
         .then(function(dbArticle) {
-        res.json(dbArticle);
+            res.json(dbArticle);
         })
         .catch(function(err) {
-        res.json(err);
+            res.json(err);
         });
 });
 
-// ROUTE FOR GRABBING A SPECIFIC ARTICLE BY ID
+// ROUTE FOR GRABBING A SPECIFIC ARTICLE'S ASSOCIATED NOTE BY ID
 app.get("/articles/:id", function(req, res) {
     db.Article
         .findOne({ _id: req.params.id })
@@ -106,6 +106,21 @@ app.post("/articles/:id", function(req, res) {
         .create(req.body)
         .then(function(dbNote) {
             return db.Article.findOneAndUpdate({ _id: req.params.id }, {note: dbNote._id }, {new: true});
+        })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+
+// ROUTE FOR DELETE A NOTE
+app.delete("/articles/:id", function(req, res) {
+    db.Note
+        .findOneAndRemove({ _id: req.params.id })
+        .then(function(dbNote) {
+            return db.Article.findOneAndUpdate({ _id: req.params.article_id }, { $pull: { note: dbNote } });
         })
         .then(function(dbArticle) {
             res.json(dbArticle);

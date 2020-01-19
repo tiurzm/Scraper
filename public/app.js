@@ -112,14 +112,16 @@ $(document).on("click", ".add-button", function(){
         if (data.note) {
             console.log(data);
             let theNote = data.note.body;
+            let noteId = data.note._id;
             let noteDiv = $("<div>")
                 .addClass("m-2");
             let noteText = $("<p>")
                 .text(theNote);
             let noteDelete = $("<button>")
                 .attr("id", "delete-note")
+                .attr("data-id", noteId)
                 .text("x")
-                .addClass("btn btn-danger float-right");
+                .addClass("btn btn-danger float-right btn-sm");
             noteText.append(noteDelete);
             noteDiv.append(noteText);
             $("#note-list").append(noteDiv);
@@ -142,6 +144,7 @@ $(document).on("click", "#save-note", function(){
             }
         }).then(function(data) {
             console.log(data);
+            window.location = "/";
             $("#note").empty();
         });
     }
@@ -149,7 +152,14 @@ $(document).on("click", "#save-note", function(){
 
 // DELETE A NOTE
 $(document).on("click", "#delete-note", function(){
-    alert("test");
+    const thisId = $(this).attr("data-id");
+    $.ajax({
+        method: "DELETE",
+        url: "/articles/" + thisId,
+    }).then(function(data) {
+        console.log(data);
+        window.location = "/";
+    });
 });
 
 // REMOVE AN ARTICLES FROM SAVED ARTICLES
