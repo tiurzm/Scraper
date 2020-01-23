@@ -4,7 +4,7 @@ Mongo Scraper lets users scrape, view, save and make notes on articles from css-
 
 ![Home Page](./public/img/1.png)
 
-###### How to use it:
+## How to use it:
 
 1. Click Scrape New Articles button.
 ![Scrape](./public/img/2.png)
