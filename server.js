@@ -11,6 +11,7 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlin
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 app.use(express.static("public"));
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
@@ -130,6 +131,14 @@ app.delete("/articles/:id", function(req, res) {
         });
 });
 
+const path = require("path");
+
+    app.get("/", function(req, res) {
+        res.sendFile(path.join(__dirname, "public/route/index.html"));
+    });
+    app.get("/saved-articles", function(req, res) {
+        res.sendFile(path.join(__dirname, "public/route/saved.html"));
+    });
 
 
 app.listen(PORT, function() {
