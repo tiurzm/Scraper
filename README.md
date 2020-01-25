@@ -6,6 +6,8 @@ Mongo Scraper lets users scrape, view, save and make notes on articles from css-
 
 ## How to use it:
 
+**Link: [Mongo Scraper](https://scrapercss.herokuapp.com/)**
+
 **1. Click Scrape New Articles button.**
 ![Scrape](./public/img/2.png)
 
