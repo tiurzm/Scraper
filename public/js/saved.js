@@ -33,14 +33,14 @@ $.ajax({
             .addClass("add-button")
             .attr("data-id", id)
             .attr("data-name", name)
-            .addClass("btn btn-primary text-white mr-2 float-right")
+            .addClass("btn btn-primary text-white m-2 float-right")
             .attr("data-toggle", "modal")
             .attr("data-target", "#add-note" )
             .text("Add Note");
         let remove = $("<button>")
             .attr("data-id", id)
             .addClass("remove")
-            .addClass("btn btn-danger text-white float-right")
+            .addClass("btn btn-danger text-white m-2 float-right")
             .text("Remove ");
         title.append(remove, add)
         article.append(title, linkText);

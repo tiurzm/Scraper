@@ -32,7 +32,7 @@ $.ajax({
         let save = $("<button>")
             .attr("data-id", id)
             .addClass("save-article")
-            .addClass("btn btn-primary text-white float-right")
+            .addClass("btn btn-primary text-white m-2 float-right")
             .text("Save Article");
         title.append(save)
         article.append(title, linkText);
